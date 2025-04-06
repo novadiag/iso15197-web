@@ -1,21 +1,17 @@
 import streamlit as st
 import os
 
-# Sayfa başlığı
 st.set_page_config(page_title="ISO 15197:2013 Standardı", layout="wide")
+
 st.title("📘 ISO 15197:2013 Standardı Web Yayını")
 
-# Dosya klasörü
-SECTIONS_DIR = "."
+# Bulunduğunuz dizindeki tüm .md dosyaları al
+section_files = sorted([f for f in os.listdir(".") if f.endswith(".md")])
 
-
-# Menü başlıklarını al (dosya adlarından)
-section_files = sorted([f for f in os.listdir(SECTIONS_DIR) if f.endswith(".md")])
-
-# Sidebar menüsü
+# Menü - bölüm seçimi
 selected_section = st.sidebar.selectbox("📂 Bölüm Seçin", section_files)
 
-# Seçilen markdown dosyasını göster
-with open(os.path.join(SECTIONS_DIR, selected_section), "r", encoding="utf-8") as f:
-    content = f.read()
+# Seçilen dosyayı aç ve göster
+with open(selected_section, "r", encoding="utf-8") as file:
+    content = file.read()
     st.markdown(content, unsafe_allow_html=True)
