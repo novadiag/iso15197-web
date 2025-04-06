@@ -20,4 +20,14 @@ sections = [
     ("ek_c_gerekce.md", "Ek C - Performans Gerekçeleri")
 ]
 
-# Her dosyayı sırayla ekr
+# Her dosyayı sırayla ekranda göster
+for file_name, title in sections:
+    st.markdown(f"---\n## 📄 {title}", unsafe_allow_html=True)
+    try:
+        with open(file_name, "r", encoding="utf-8") as f:
+            content = f.read()
+            st.markdown(content, unsafe_allow_html=True)
+    except FileNotFoundError:
+        st.warning(f"❗️ {file_name} bulunamadı.")
+    except Exception as e:
+        st.error(f"🚫 {file_name} yüklenirken hata oluştu: {e}")
