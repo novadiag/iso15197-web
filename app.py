@@ -1,11 +1,11 @@
 import streamlit as st
 import os
 
-# Sayfa başlığı ve yapı
+# Sayfa ayarı
 st.set_page_config(page_title="ISO 15197:2013 Standardı", layout="wide")
 st.title("📘 ISO 15197:2013 Standardı Web Yayını")
 
-# Tüm markdown dosyalarını manuel listele (garanti çözüm)
+# Dosyaları sırayla tanımlıyoruz
 section_files = [
     "01_amac_ve_kapsam.md",
     "02_normatif_referanslar.md",
@@ -20,10 +20,9 @@ section_files = [
     "ek_c_gerekce.md"
 ]
 
-# Menüden seçim
-selected_section = st.sidebar.selectbox("📂 Bölüm Seçin", section_files)
-
-# Seçilen dosyayı okuyup göster
-with open(selected_section, "r", encoding="utf-8") as file:
-    content = file.read()
-    st.markdown(content, unsafe_allow_html=True)
+# Tüm dosyaları sırayla göster
+for file_name in section_files:
+    st.markdown(f"---\n## 📄 {file_name.replace('_', ' ').replace('.md', '').title()}\n", unsafe_allow_html=True)
+    with open(file_name, "r", encoding="utf-8") as file:
+        content = file.read()
+        st.markdown(content, unsafe_allow_html=True)
