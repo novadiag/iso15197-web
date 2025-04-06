@@ -33,6 +33,15 @@ if selected_file and os.path.exists(selected_file):
     with open(selected_file, "r", encoding="utf-8") as f:
         content = f.read()
         st.markdown(content, unsafe_allow_html=True)
+    # İçeriği göster
+    st.markdown(content, unsafe_allow_html=True)
+
+    # Not kutusu
+    st.markdown("### ✍️ Kendi Notunuzu Yazın")
+    user_note = st.text_area(f"📝 {selected_title} için kişisel notlarınız:", key=selected_file)
+
+    if user_note:
+        st.info("🧠 Bu not sayfa yenilenince kaybolacaktır. Kalıcı kayıt özelliği yakında!")
 
     # HTML indir butonu
     if st.button("⬇️ HTML olarak indir"):
