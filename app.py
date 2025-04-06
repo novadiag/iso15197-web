@@ -4,6 +4,30 @@ from io import BytesIO
 from markdown2 import markdown
 
 # Sayfa başlığı
+# 🔍 Arama kutusu
+st.markdown("---")
+st.subheader("🔍 İçerik Arama")
+search_query = st.text_input("Aramak istediğiniz kelimeyi girin (örn: ISO 13485, glukoz, validasyon):")
+
+if search_query:
+    st.markdown(f"#### 🔎 “{search_query}” kelimesiyle eşleşen bölümler:")
+    results_found = False
+
+    for file_name, title in sections:
+        if os.path.exists(file_name):
+            with open(file_name, "r", encoding="utf-8") as f:
+                content = f.read()
+                if search_query.lower() in content.lower():
+                    results_found = True
+                    st.markdown(f"---\n### 📄 {title}", unsafe_allow_html=True)
+                    # Eşleşen satırları vurgulayarak göster
+                    for line in content.splitlines():
+                        if search_query.lower() in line.lower():
+                            st.markdown(f"🔸 `{line.strip()}`")
+
+    if not results_found:
+        st.info("🔍 Aradığınız kelime hiçbir bölümde bulunamadı.")
+
 st.set_page_config(page_title="ISO 15197:2013 Standardı", layout="wide")
 st.title("📘 ISO 15197:2013 Standardı Web Yayını")
 
