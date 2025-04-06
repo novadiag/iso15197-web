@@ -1,10 +1,11 @@
 import streamlit as st
 import os
 
+# Sayfa başlığı ve yapılandırma
 st.set_page_config(page_title="ISO 15197:2013 Standardı", layout="wide")
 st.title("📘 ISO 15197:2013 Standardı Web Yayını")
 
-# Dosya ve başlık listesi
+# Dosya listesi (dosya adı, görünen başlık)
 sections = [
     ("01_amac_ve_kapsam.md", "1. Amaç ve Kapsam"),
     ("02_normatif_referanslar.md", "2. Normatif Referanslar"),
@@ -19,21 +20,18 @@ sections = [
     ("ek_c_gerekce.md", "Ek C - Performans Gerekçeleri")
 ]
 
-# İçindekiler bölümü
-st.markdown("## 📑 Bölümler")
-for _, title in sections:
-    anchor = title.lower().replace(" ", "-").replace(".", "").replace("ç", "c").replace("ı", "i").replace("ğ", "g").replace("ü", "u").replace("ö", "o").replace("ş", "s")
-    st.markdown(f"- [{title}](#{anchor})")
+# Sidebar menü
+section_titles = [title for _, title in sections]
+selected_title = st.sidebar.selectbox("📂 Bölüm Seçin", section_titles)
 
-# İçerikleri sırayla göster
-for file_name, title in sections:
-    anchor = title.lower().replace(" ", "-").replace(".", "").replace("ç", "c").replace("ı", "i").replace("ğ", "g").replace("ü", "u").replace("ö", "o").replace("ş", "s")
-    st.markdown(f"<hr><h2 id='{anchor}'>📄 {title}</h2>", unsafe_allow_html=True)
-    try:
-        with open(file_name, "r", encoding="utf-8") as f:
-            content = f.read()
-            st.markdown(content, unsafe_allow_html=True)
-    except FileNotFoundError:
-        st.warning(f"❗️ {file_name} bulunamadı.")
-    except Exception as e:
-        st.error(f"🚫 {file_name} yüklenirken hata oluştu: {e}")
+# Seçilen başlığa karşılık gelen dosyayı bul
+selected_file = next((f for f, t in sections if t == selected_title), None)
+
+# Dosyayı oku ve göster
+if selected_file and os.path.exists(selected_file):
+    st.markdown(f"## 📄 {selected_title}")
+    with open(selected_file, "r", encoding="utf-8") as f:
+        content = f.read()
+        st.markdown(content, unsafe_allow_html=True)
+else:
+    st.warning("❗️ Seçilen bölümün dosyası bulunamadı.")
