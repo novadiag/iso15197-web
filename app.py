@@ -55,8 +55,6 @@ section_files = [
     "ek_c_gerekce.md"
 ]
 
-]
-
 selected_section = st.sidebar.selectbox("📂 Bölüm Seçin", section_files)
 
 # Markdown dosyasını oku ve göster
