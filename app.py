@@ -37,7 +37,26 @@ if selected_file and os.path.exists(selected_file):
 
         # PDF İNDİRME BUTONU
         if st.button("⬇️ PDF olarak indir"):
-            html = markdown(content)
+            html = f"""
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {{
+            size: A4;
+            margin: 1cm;
+        }}
+        body {{
+            font-family: DejaVu Sans, sans-serif;
+        }}
+    </style>
+</head>
+<body>
+{markdown(content)}
+</body>
+</html>
+"""
+
             buffer = BytesIO()
             pisa_status = pisa.CreatePDF(html, dest=buffer)
             if not pisa_status.err:
