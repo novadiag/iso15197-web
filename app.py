@@ -1,11 +1,11 @@
 import streamlit as st
 import os
 
-# Sayfa başlığı ve yapılandırma
+# Sayfa başlığı
 st.set_page_config(page_title="ISO 15197:2013 Standardı", layout="wide")
 st.title("📘 ISO 15197:2013 Standardı Web Yayını")
 
-# .md dosya adları (manuel ve sıralı tanımlı)
+# Dosya ve başlık listesi
 sections = [
     ("01_amac_ve_kapsam.md", "1. Amaç ve Kapsam"),
     ("02_normatif_referanslar.md", "2. Normatif Referanslar"),
@@ -20,14 +20,12 @@ sections = [
     ("ek_c_gerekce.md", "Ek C - Performans Gerekçeleri")
 ]
 
-# Her dosyayı sırayla ekranda göster
+# 📌 İçindekiler listesi
+st.markdown("## 📑 Bölümler")
+for _, title in sections:
+    anchor = title.lower().replace(" ", "-").replace(".", "")
+    st.markdown(f"- [{title}](#{anchor})")
+
+# 📄 İçerikleri sırayla yükle
 for file_name, title in sections:
-    st.markdown(f"---\n## 📄 {title}", unsafe_allow_html=True)
-    try:
-        with open(file_name, "r", encoding="utf-8") as f:
-            content = f.read()
-            st.markdown(content, unsafe_allow_html=True)
-    except FileNotFoundError:
-        st.warning(f"❗️ {file_name} bulunamadı.")
-    except Exception as e:
-        st.error(f"🚫 {file_name} yüklenirken hata oluştu: {e}")
+    anchor = title
