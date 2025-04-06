@@ -6,7 +6,8 @@ st.set_page_config(page_title="ISO 15197:2013 Standardı", layout="wide")
 st.title("📘 ISO 15197:2013 Standardı Web Yayını")
 
 # Dosya klasörü
-SECTIONS_DIR = "iso15197_sections"
+SECTIONS_DIR = "."
+
 
 # Menü başlıklarını al (dosya adlarından)
 section_files = sorted([f for f in os.listdir(SECTIONS_DIR) if f.endswith(".md")])
